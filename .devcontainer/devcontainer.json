@@ -1,0 +1,12 @@
+{
+  "name": "R Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "remoteUser": "rstudio",
+  "settings": {},
+  "extensions": [
+    "REditorSupport.r"
+  ],
+  "postCreateCommand": "Rscript -e 'install.packages(c(\"devtools\", \"usethis\", \"pak\", \"renv\"), repos=\"https://cran.rstudio.com/\")'"
+}
