@@ -16,8 +16,8 @@
     }
   },
   "postCreateCommand": "bash .devcontainer/post-create.sh",
-  "remoteEnv": {
-    "ANTHROPIC_FOUNDRY_API_KEY": "${localEnv:ANTHROPIC_FOUNDRY_API_KEY}",
-    "ANTHROPIC_FOUNDRY_RESOURCE": "${localEnv:ANTHROPIC_FOUNDRY_RESOURCE}"
-  }
+  "runArgs": [
+    "--env", "ANTHROPIC_FOUNDRY_API_KEY",
+    "--env", "ANTHROPIC_FOUNDRY_RESOURCE"
+  ]
 }
