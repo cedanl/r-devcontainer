@@ -4,10 +4,20 @@
     "dockerfile": "Dockerfile"
   },
   "remoteUser": "rstudio",
-  "settings": {},
-  "extensions": [
-    "REditorSupport.r",
-    "anthropic.claude-code"
-  ],
-  "postCreateCommand": "Rscript -e 'install.packages(c(\"devtools\", \"usethis\", \"pak\", \"renv\"), repos=\"https://cran.rstudio.com/\")' && npx skills add cedanl/.github --skill '*' -a claude-code -a opencode -y --copy -g"
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      },
+      "extensions": [
+        "REditorSupport.r",
+        "anthropic.claude-code"
+      ]
+    }
+  },
+  "postCreateCommand": "bash -c 'Rscript -e \"install.packages(c(\\\"devtools\\\", \\\"usethis\\\", \\\"pak\\\", \\\"renv\\\"), repos=\\\"https://cran.rstudio.com/\\\")\" && npx --yes skills add cedanl/.github --skill \"*\" -a claude-code -a opencode -y --copy -g && echo \"[ -f /workspaces/r-devcontainer/.devcontainer/.env ] && set -a && source /workspaces/r-devcontainer/.devcontainer/.env && set +a\" >> ~/.bashrc'",
+  "remoteEnv": {
+    "ANTHROPIC_FOUNDRY_API_KEY": "${localEnv:ANTHROPIC_FOUNDRY_API_KEY}",
+    "ANTHROPIC_FOUNDRY_RESOURCE": "${localEnv:ANTHROPIC_FOUNDRY_RESOURCE}"
+  }
 }
