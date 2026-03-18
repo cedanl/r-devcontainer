@@ -6,7 +6,8 @@
   "remoteUser": "rstudio",
   "settings": {},
   "extensions": [
-    "REditorSupport.r"
+    "REditorSupport.r",
+    "anthropic.claude-code"
   ],
-  "postCreateCommand": "Rscript -e 'install.packages(c(\"devtools\", \"usethis\", \"pak\", \"renv\"), repos=\"https://cran.rstudio.com/\")'"
+  "postCreateCommand": "Rscript -e 'install.packages(c(\"devtools\", \"usethis\", \"pak\", \"renv\"), repos=\"https://cran.rstudio.com/\")' && npx skills add cedanl/.github --skill '*' -a claude-code -a opencode -y --copy -g"
 }
