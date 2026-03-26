@@ -17,5 +17,6 @@
   },
   "initializeCommand": "touch .devcontainer/.env",
   "runArgs": ["--env-file", ".devcontainer/.env"],
-  "postCreateCommand": "bash .devcontainer/post-create.sh"
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "postAttachCommand": "[[ ! -f ~/.claude/.onboarded ]] && bash .devcontainer/onboard.sh || true"
 }
