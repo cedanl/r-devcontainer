@@ -4,9 +4,19 @@
     "dockerfile": "Dockerfile"
   },
   "remoteUser": "rstudio",
-  "settings": {},
-  "extensions": [
-    "REditorSupport.r"
-  ],
-  "postCreateCommand": "Rscript -e 'install.packages(c(\"devtools\", \"usethis\", \"pak\", \"renv\"), repos=\"https://cran.rstudio.com/\")'"
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      },
+      "extensions": [
+        "REditorSupport.r",
+        "anthropic.claude-code"
+      ]
+    }
+  },
+  "initializeCommand": "touch .devcontainer/.env",
+  "runArgs": ["--env-file", ".devcontainer/.env"],
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "postAttachCommand": "[[ ! -f ~/.claude/.onboarded ]] && bash .devcontainer/onboard.sh || true"
 }
