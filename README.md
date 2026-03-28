@@ -69,7 +69,6 @@ Na het herbouwen werkt `claude` meteen.
 | `R` + tidyverse | R met vooraf geïnstalleerde tidyverse-pakketten |
 | `devtools`, `pak`, `renv` | R-pakketbeheer en projectbeheer |
 | `claude` | Claude Code CLI |
-| `gh` | GitHub CLI |
 | CEDA org-skills | Geladen vanuit `cedanl/.github` via `npx skills` |
 
 ## Problemen oplossen
