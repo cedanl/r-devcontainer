@@ -53,6 +53,48 @@ EOF
 mkdir -p ~/.pi/agent/extensions
 cp "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/willma-extension.ts" ~/.pi/agent/extensions/willma.ts
 
+# Gebruiker-specifieke configuratie (optioneel)
+# Stel USER_CONFIG_REPO in in .devcontainer/.env — zie .env.example voor de repo-structuur.
+if [[ -n "${USER_CONFIG_REPO:-}" ]]; then
+  REPO_URL="${USER_CONFIG_REPO}"
+  [[ "$REPO_URL" != https://* ]] && REPO_URL="https://github.com/${REPO_URL}"
+  echo "Gebruikersconfig toepassen van ${REPO_URL}..."
+
+  if git clone --depth 1 "$REPO_URL" /tmp/user-config 2>/dev/null; then
+    # CLAUDE.md — toegevoegd aan globale Claude instructies
+    if [[ -f /tmp/user-config/CLAUDE.md ]]; then
+      echo "" >> ~/.claude/CLAUDE.md
+      cat /tmp/user-config/CLAUDE.md >> ~/.claude/CLAUDE.md
+      echo "  ✔ CLAUDE.md toegevoegd"
+    fi
+
+    # Claude skills
+    if [[ -d /tmp/user-config/skills ]]; then
+      mkdir -p ~/.claude/skills
+      cp -r /tmp/user-config/skills/. ~/.claude/skills/
+      echo "  ✔ Claude skills gekopieerd"
+    fi
+
+    # Pi extensions
+    if [[ -d /tmp/user-config/pi-extensions ]]; then
+      mkdir -p ~/.pi/agent/extensions
+      cp -r /tmp/user-config/pi-extensions/. ~/.pi/agent/extensions/
+      echo "  ✔ Pi extensions gekopieerd"
+    fi
+
+    # Eigen post-create script — draait als laatste
+    if [[ -f /tmp/user-config/post-create.sh ]]; then
+      bash /tmp/user-config/post-create.sh \
+        && echo "  ✔ Eigen post-create.sh uitgevoerd" \
+        || echo "  ✖ Eigen post-create.sh mislukt — container gaat door"
+    fi
+
+    rm -rf /tmp/user-config
+  else
+    echo "  ✖ Kon USER_CONFIG_REPO niet clonen: ${REPO_URL} — overgeslagen"
+  fi
+fi
+
 # Source .env file on shell startup (fallback for secrets not set on host)
 ENV_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.env"
 echo "[ -f \"$ENV_FILE\" ] && set -a && source \"$ENV_FILE\" && set +a" >> ~/.bashrc
