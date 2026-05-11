@@ -7,7 +7,7 @@ echo "Starting post-create setup..."
 Rscript -e 'install.packages(c("devtools", "usethis", "pak", "renv"), repos="https://cran.rstudio.com/")'
 
 # Install org-wide Claude/OpenCode skills from cedanl/.github
-npx --yes skills add cedanl/.github --skill '*' -a claude-code -a opencode -y --copy -g
+npx --yes skills add cedanl/.github --skill '*' -a claude-code -a opencode -a pi -y --copy -g
 
 # Install skill-codex (delegates work from Claude to Codex CLI)
 git clone --depth 1 https://github.com/skills-directory/skill-codex.git /tmp/skill-codex \
